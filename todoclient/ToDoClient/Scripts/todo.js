@@ -11,8 +11,6 @@
         $(parentSelector).append(tr);
     }
 
-
-
     // adds all tasks as rows (deletes all rows before).
     // @parentSelector: selector to append a row to.
     // @tasks: array of tasks to append.
@@ -25,9 +23,18 @@
 
     // starts loading tasks from server.
     // @returns a promise.
-    var loadTasks = function() {
-        return $.getJSON("/api/todos");
+
+    var loadTasks = function () {
+        $("#loader").show();
+        var tasks = $.getJSON("/api/todos");
+        $("#loader").hide();
+        return tasks;
     };
+
+
+    //var loadTasks = function() {
+    //    return $.getJSON("/api/todos");
+    //};
 
     // starts creating a task on the server.
     // @isCompleted: indicates if new task should be completed.

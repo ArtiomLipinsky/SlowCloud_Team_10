@@ -8,6 +8,7 @@ using ToDoClient.Models;
 using System.Data.Entity;
 using ToDoClient.Services;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace todoclient.Services
 {
@@ -63,18 +64,7 @@ namespace todoclient.Services
             }
         }
 
-        static private void RemoteAdd(ToDoItem task)
-        {
-            remoteService.CreateItem(new ToDoItemViewModel
-            {
-                IsCompleted = task.IsCompleted,
-                Name = task.Name,
-                ToDoId = task.RemoteTaskId,
-                UserId = task.RemoteUserId
-            });
-            task.IsUploaded = true;
-            Update(task);
-        }
+
 
         static public void SynchronizationStart()
         {
@@ -94,6 +84,27 @@ namespace todoclient.Services
 
         }
 
+        static private void RemoteAdd(ToDoItem task)
+        {
+
+            try //bad style
+            {
+                remoteService.CreateItem(new ToDoItemViewModel
+                {
+                    IsCompleted = task.IsCompleted,
+                    Name = task.Name,
+                    ToDoId = task.RemoteTaskId,
+                    UserId = task.RemoteUserId
+                });
+                task.IsUploaded = true;
+                Update(task);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+            }
+        }
+
         static private void RemoteDel(ToDoItem task)
         {
             if (!task.IsUploaded)
@@ -102,9 +113,17 @@ namespace todoclient.Services
             }
             else
             {
-                if (task.RemoteTaskId == 0) Refresh();
-                remoteService.DeleteItem(task.RemoteTaskId);
-                DeleteFromDB(task.Id);
+
+                try //bad style
+                {
+                    if (task.RemoteTaskId == 0) Refresh();
+                    remoteService.DeleteItem(task.RemoteTaskId);
+                    DeleteFromDB(task.Id);
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e.Message);
+                }
             }
         }
 
@@ -116,16 +135,23 @@ namespace todoclient.Services
             }
             else
             {
-                if (task.RemoteTaskId == 0) Refresh();
-                remoteService.UpdateItem(new ToDoItemViewModel
+                try //bad style
                 {
-                    IsCompleted = task.IsCompleted,
-                    Name = task.Name,
-                    ToDoId = task.RemoteTaskId,
-                    UserId = task.RemoteUserId
-                });
-                task.IsChanged = false;
-                Update(task);
+                    if (task.RemoteTaskId == 0) Refresh();
+                    remoteService.UpdateItem(new ToDoItemViewModel
+                    {
+                        IsCompleted = task.IsCompleted,
+                        Name = task.Name,
+                        ToDoId = task.RemoteTaskId,
+                        UserId = task.RemoteUserId
+                    });
+                    task.IsChanged = false;
+                    Update(task);
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e.Message);
+                }
             }
         }
 
@@ -177,10 +203,6 @@ namespace todoclient.Services
 
             }
         }
-
-
-
-
     }
 }
 
