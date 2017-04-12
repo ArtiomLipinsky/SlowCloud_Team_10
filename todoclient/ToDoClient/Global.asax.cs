@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using System.Web.Routing;
@@ -15,8 +16,11 @@ namespace todoclient
         protected void Application_Start()
         {
             GlobalConfiguration.Configure(WebApiConfig.Register);
-            Thread thread = new Thread(SyncService.SyncStart);
-            thread.Start();
+            SyncService.SynchronizationStart();
+          
+
+            //(new Thread(SyncService.SyncStart)).Start();
+
         }
     }
 }

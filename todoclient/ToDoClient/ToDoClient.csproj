@@ -111,9 +111,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\SyncService.cs" />
     <Compile Include="Services\ToDoService.cs" />
-    <Compile Include="Services\ToDoService_Fast.cs" />
+    <Compile Include="Services\LocalToDoService.cs" />
     <Compile Include="Services\UserService.cs" />
-    <Compile Include="Services\UserService_Fast.cs" />
+    <Compile Include="Services\LocalUserService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

@@ -34,7 +34,7 @@ namespace ORM
         // on configuring and using a Code First model, see http://go.microsoft.com/fwlink/?LinkId=390109.
 
         public virtual DbSet<User> Users { get; set; }
-        public virtual DbSet<Task> Tasks { get; set; }
+        public virtual DbSet<ToDoItem> Tasks { get; set; }
 
 
         public override int SaveChanges()
@@ -80,7 +80,7 @@ namespace ORM
             base.OnModelCreating(modelBuilder);
 
  
-            modelBuilder.Entity<Task>()
+            modelBuilder.Entity<ToDoItem>()
                 .HasRequired(p => p.User)
                 .WithMany(e => e.Tasks)
                 .HasForeignKey(u => u.UserId).

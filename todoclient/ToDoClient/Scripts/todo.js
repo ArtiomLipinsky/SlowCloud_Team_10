@@ -4,7 +4,7 @@
     // @parentSelector: selector to append a row to.
     // @obj: task object to append.
     var appendRow = function(parentSelector, obj) {
-        var tr = $("<tr data-id='" + obj.ToDoId + "'></tr>");
+        var tr = $("<tr data-id='" + obj.Id + "'></tr>");
         tr.append("<td><input type='checkbox' class='completed' " + (obj.IsCompleted ? "checked" : "") + "/></td>");
         tr.append("<td class='name' >" + obj.Name + "</td>");
         tr.append("<td><input type='button' class='delete-button' value='Delete' /></td>");
@@ -51,7 +51,7 @@
             type: "PUT",
             contentType: 'application/json',
             data: JSON.stringify({
-                ToDoId: id,
+                Id: id,
                 IsCompleted: isCompleted,
                 Name: name
             })
@@ -81,16 +81,17 @@
 
 $(function () {
     // add new task button click handler
-    $("#newCreate").click(function() {
+    $("#newCreate").click(function () {
         var isCompleted = $('#newCompleted')[0].checked;
         var name = $('#newName')[0].value;
-
+        $("#newName").val(''); // очистка поля
         tasksManager.createTask(isCompleted, name)
             .then(tasksManager.loadTasks)
-            .done(function(tasks) {
+            .done(function (tasks) {
                 tasksManager.displayTasks("#tasks > tbody", tasks);
             });
     });
+
 
     // bind update task checkbox click handler
     $("#tasks > tbody").on('change', '.completed', function () {

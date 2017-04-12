@@ -14,8 +14,8 @@ namespace ToDoClient.Controllers
         //private readonly ToDoService todoService = new ToDoService();
         //private readonly UserService userService = new UserService();
 
-        private readonly ToDoService_Fast todoService = new ToDoService_Fast();
-        private readonly UserService_Fast userService = new UserService_Fast();
+        private readonly LocalToDoService todoService = new LocalToDoService();
+        private readonly LocalUserService userService = new LocalUserService();
 
         /// <summary>
         /// Returns all todo-items for the current user.

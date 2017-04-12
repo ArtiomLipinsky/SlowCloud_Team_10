@@ -7,6 +7,13 @@ namespace ToDoClient.Models
 {
     public class ToDoItemViewModel
     {
+
+        /// <summary>
+        ///  Gets or sets to do local identifier.
+        /// </summary>
+        public int Id { get; set; }
+
+
         /// <summary>
         /// Gets or sets to do identifier.
         /// </summary>

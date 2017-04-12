@@ -75,6 +75,7 @@ namespace ToDoClient.Services
         /// <param name="item">The todo to update.</param>
         public void UpdateItem(ToDoItemViewModel item)
         {
+            if (item.ToDoId!=0) //!!!
             httpClient.PutAsJsonAsync(serviceApiUrl + UpdateUrl, item)
                 .Result.EnsureSuccessStatusCode();
         }
