@@ -77,6 +77,12 @@ namespace todoclient.Services
 
         public void CreateItem(ToDoItemViewModel item)
         {
+            if (item.Name==null || item.Name == string.Empty)
+            {
+                return;
+            }
+            else
+            { 
             var user = db.Users.First(u => u.RemoteId == item.UserId);
             var temp = new ToDoItem
             {
@@ -91,6 +97,7 @@ namespace todoclient.Services
             var tempId = AddAndGetID(temp);
             db.SaveChanges();
             SyncService.AddToAddQueue(db.Tasks.Single(t => t.Id == tempId));
+            }
         }
 
         /// <summary>

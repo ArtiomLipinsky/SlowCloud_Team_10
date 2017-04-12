@@ -63,7 +63,6 @@ namespace todoclient.Services
             }
         }
 
-
         static private void RemoteAdd(ToDoItem task)
         {
             remoteService.CreateItem(new ToDoItemViewModel
@@ -76,7 +75,6 @@ namespace todoclient.Services
             task.IsUploaded = true;
             Update(task);
         }
-
 
         static public void SynchronizationStart()
         {
@@ -98,23 +96,37 @@ namespace todoclient.Services
 
         static private void RemoteDel(ToDoItem task)
         {
-            if (task.RemoteTaskId == 0) Refresh();
-            remoteService.DeleteItem(task.RemoteTaskId);
-            DeleteFromDB(task.Id);
+            if (!task.IsUploaded)
+            {
+                DeleteFromDB(task.Id);
+            }
+            else
+            {
+                if (task.RemoteTaskId == 0) Refresh();
+                remoteService.DeleteItem(task.RemoteTaskId);
+                DeleteFromDB(task.Id);
+            }
         }
 
         static private void RemoteUpdate(ToDoItem task)
         {
-            if (task.RemoteTaskId == 0) Refresh();
-            remoteService.UpdateItem(new ToDoItemViewModel
+            if (!task.IsUploaded)
             {
-                IsCompleted = task.IsCompleted,
-                Name = task.Name,
-                ToDoId = task.RemoteTaskId,
-                UserId = task.RemoteUserId
-            });
-            task.IsChanged = false;
-            Update(task);
+                Update(task);
+            }
+            else
+            {
+                if (task.RemoteTaskId == 0) Refresh();
+                remoteService.UpdateItem(new ToDoItemViewModel
+                {
+                    IsCompleted = task.IsCompleted,
+                    Name = task.Name,
+                    ToDoId = task.RemoteTaskId,
+                    UserId = task.RemoteUserId
+                });
+                task.IsChanged = false;
+                Update(task);
+            }
         }
 
         private static void Update(ToDoItem item)
@@ -124,7 +136,6 @@ namespace todoclient.Services
             db.Entry(dbTask).State = EntityState.Modified;
             db.SaveChanges();
         }
-
 
         public static void DeleteFromDB(int id)
         {
@@ -148,7 +159,7 @@ namespace todoclient.Services
                             Name = t.Name,
                             RemoteUserId = t.UserId,
                             RemoteTaskId = t.ToDoId,
-      
+
                         }).ToList();
 
                         foreach (var task in tasks)

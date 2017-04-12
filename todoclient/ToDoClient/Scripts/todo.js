@@ -3,13 +3,15 @@
     // appends a row to the tasks table.
     // @parentSelector: selector to append a row to.
     // @obj: task object to append.
-    var appendRow = function(parentSelector, obj) {
+    var appendRow = function (parentSelector, obj) {
         var tr = $("<tr data-id='" + obj.Id + "'></tr>");
-        tr.append("<td><input type='checkbox' class='completed' " + (obj.IsCompleted ? "checked" : "") + "/></td>");
+        tr.append("<td align='center'><input type='checkbox' class='completed' " + (obj.IsCompleted ? "checked" : "") + "/></td>");
         tr.append("<td class='name' >" + obj.Name + "</td>");
-        tr.append("<td><input type='button' class='delete-button' value='Delete' /></td>");
+        tr.append("<td align='center'><input type='button' class='delete-button btn btn-danger' value='Delete' /></td>");
         $(parentSelector).append(tr);
     }
+
+
 
     // adds all tasks as rows (deletes all rows before).
     // @parentSelector: selector to append a row to.
@@ -84,7 +86,7 @@ $(function () {
     $("#newCreate").click(function () {
         var isCompleted = $('#newCompleted')[0].checked;
         var name = $('#newName')[0].value;
-        $("#newName").val(''); // очистка поля
+        $("#newName").val(' '); // очистка поля
         tasksManager.createTask(isCompleted, name)
             .then(tasksManager.loadTasks)
             .done(function (tasks) {
