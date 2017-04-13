@@ -25,9 +25,7 @@
     // @returns a promise.
 
     var loadTasks = function () {
-        $("#loader").show();
         var tasks = $.getJSON("/api/todos");
-        $("#loader").hide();
         return tasks;
     };
 

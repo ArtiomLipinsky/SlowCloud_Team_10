@@ -29,6 +29,8 @@ namespace todoclient.Services
                 {
                     db.Tasks.AddRange(remoteService.GetItems(userId).Select(t => new ToDoItem
                     {
+                        IsDeleted=false,
+                        UserId= db.Users.Single(u => u.RemoteId == userId).Id,
                         IsCompleted = t.IsCompleted,
                         IsUploaded = true,
                         IsChanged = false,
